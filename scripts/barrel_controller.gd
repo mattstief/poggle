@@ -21,7 +21,7 @@ func set_projectile_resource(resource = get("default_projectile_scene")):
 	var no_default_projectile = !is_instance_valid(resource)
 	if no_default_projectile:
 		print("default projectile not set for barrel controller....\n falling back to base")
-		resource = preload("res://prefabs/projectile1.tscn")
+		resource = preload("res://prefabs/core_game/projectile1.tscn")
 		set("default_projectile_scene", resource)
 	set("projectile_scene", resource)
 

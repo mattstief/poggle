@@ -25,6 +25,7 @@ func _physics_process(delta):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	add_to_group("projectile")
 	set_initial_velocity(self.get("speed"))
 	var light = get_node_or_null("Light2D")
 	if light:

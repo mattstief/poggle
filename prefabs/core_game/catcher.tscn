@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scripts/catcher.gd" type="Script" id=2]
+[ext_resource path="res://bmps/light.bmp" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="OccluderPolygon2D" id=4]
+polygon = PoolVector2Array( 80.9736, 22.097, 72.9916, 7.08744, 64.0012, -0.923335, 55.0083, -6.93411, 45.0096, -7.94609, 41.9736, 22.0503 )
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0.780392, 0, 1, 0, 0.921875, 0, 1, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[node name="catcher" type="Area2D"]
+rotation = -0.00119788
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.0124579, 11.9999 )
+rotation = 0.000160824
+scale = Vector2( 5, 1 )
+shape = SubResource( 1 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+position = Vector2( -5.71194e-10, 4.76837e-07 )
+rotation = 1.16415e-10
+occluder = SubResource( 4 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( -0.250453, 4.99977 )
+scale = Vector2( 0.08, 0.01 )
+texture = ExtResource( 3 )
+color = Color( 0.780392, 0, 1, 1 )
+shadow_enabled = true
+
+[node name="Sprite" type="Sprite" parent="."]
+show_behind_parent = true
+light_mask = 0
+position = Vector2( -45.0046, 2.9461 )
+rotation = 1.5708
+scale = Vector2( 0.01, 90 )
+texture = SubResource( 3 )
+
+[connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]

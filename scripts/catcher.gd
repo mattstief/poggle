@@ -11,7 +11,8 @@ func _ready():
 
 func _on_Area2D_body_entered(body):
 	var allow_catch:bool = (self.get("allow_repeat_bodies") or is_unique(body))
-	if allow_catch:
+	var is_shot:bool = body.is_in_group("projectile")
+	if allow_catch and is_shot:
 		emit_signal("projectile_caught", self)
 	self.get("caught_bodies").append(body)
 

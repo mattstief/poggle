@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://prefabs/ball_sprite_with_border.tscn" type="PackedScene" id=3]
+[ext_resource path="res://prefabs/Dependents/ball_sprite_with_border.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 289.103

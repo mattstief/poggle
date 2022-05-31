@@ -35,7 +35,7 @@ func initialize_gun():
 		get_tree().quit()
 
 func initialize_bucket():
-	var catcher = get_node_or_null("catcher")
+	var catcher = get_node_or_null("catcher_body/catcher")
 	var catcher_exists:bool = is_instance_valid(catcher)
 	if catcher_exists:
 		var catch_err = catcher.connect("projectile_caught", self, "_on_catch")

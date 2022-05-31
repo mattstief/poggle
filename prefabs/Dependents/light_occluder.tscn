@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://bmps/blob.bmp" type="Texture" id=1]
-[ext_resource path="res://prefabs/circular_light_occluder.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/Dependents/circular_light_occluder.tscn" type="PackedScene" id=2]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 resource_local_to_scene = true

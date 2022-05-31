@@ -33,12 +33,6 @@ func collide():
 		light.twinkle_floor = 1.0
 		light.color = color_on_hit
 
-#func initialize_collision_timer(time):
-#	var timer = Timer.new()
-#	timer.connect("timeout", self, "despawn_peg")
-#	self.add_child(timer)
-#	timer.start(5)
-
 func despawn_peg():
 	emit_signal("peg_collision", self, "despawn")
 
