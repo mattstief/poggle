@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://resources/button_hover.tres" type="StyleBox" id=1]
+[ext_resource path="res://resources/button_press.tres" type="StyleBox" id=2]
+[ext_resource path="res://resources/button.tres" type="StyleBox" id=3]
+
+[node name="Button" type="Button"]
+margin_left = 260.0
+margin_right = 660.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 400, 150 )
+focus_mode = 0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.709804, 0.709804, 0.709804, 1 )
+custom_colors/font_color_hover = Color( 0.886275, 0.886275, 0.886275, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+custom_styles/hover = ExtResource( 1 )
+custom_styles/pressed = ExtResource( 2 )
+custom_styles/normal = ExtResource( 3 )
+enabled_focus_mode = 0
+text = "Campaign"

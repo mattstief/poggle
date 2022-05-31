@@ -1,0 +1,82 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://scripts/catcher.gd" type="Script" id=1]
+[ext_resource path="res://bmps/light.bmp" type="Texture" id=2]
+[ext_resource path="res://prefabs/circular_light_occluder.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="GDScript" id=4]
+script/source = "tool
+extends OccluderPolygon2D
+
+var points:PoolVector2Array = [
+Vector2(1.0, 0.0),
+Vector2(0.9510565982955543, 0.30901674200355006),
+Vector2(0.8090173063230227, 0.5877848229325425),
+Vector2(0.5877858963320586, 0.8090165264524072),
+Vector2(0.30901800386031925, 0.9510561882928809),
+Vector2(1.3267948966775328e-06, 0.9999999999991198),
+Vector2(-0.3090154801462369, 0.9510570082965535),
+Vector2(-0.5877837495319916, 0.8090180861922142),
+Vector2(-0.8090157465803675, 0.58778696973054),
+Vector2(-0.9510557782885333, 0.3090192657165443),
+Vector2(-0.9999999999964793, 2.65358979335273e-06),
+Vector2(-0.9510574182958785, -0.30901421828837966),
+Vector2(-0.8090188660599813, -0.5877826761304061),
+Vector2(-0.5877880431279868, -0.8090149667069033),
+Vector2(-0.30902052757222587, -0.9510553682825112),
+Vector2(0, -1),
+Vector2(0.3090129564299786, -0.9510578282935293),
+Vector2(0.587781602727786, -0.8090196459263242),
+Vector2(0.8090141868320155, -0.5877891165243982),
+Vector2(0.9510549582748153, -0.3090217894273625),
+]
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	#poly.draw_circle(Vector2(0,0), 50, Vector3(1,0,0))
+	if Engine.editor_hint:
+		self.occluder.set_polygon(points)
+	pass # Replace with function body.
+"
+
+[sub_resource type="OccluderPolygon2D" id=5]
+polygon = PoolVector2Array( 30, 0, 27.4064, 12.2021, 20.0739, 22.2943, 9.27051, 28.5317, -3.13585, 29.8357, -15, 25.9808, -24.2705, 17.6336, -29.3444, 6.23735, -29.3444, -6.23735, -24.2705, -17.6336, -15, -25.9808, -3.13585, -29.8357, 9.27051, -28.5317, 20.0739, -22.2943, 27.4064, -12.2021 )
+script = SubResource( 4 )
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0.780392, 0, 1, 0, 0.921875, 0, 1, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[node name="catcher" type="Area2D"]
+rotation = -0.00119788
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.0124579, 11.9999 )
+rotation = 0.000160824
+scale = Vector2( 5, 1 )
+shape = SubResource( 1 )
+
+[node name="LightOccluder2D" parent="." instance=ExtResource( 3 )]
+occluder = SubResource( 5 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( -0.250453, 4.99977 )
+scale = Vector2( 0.08, 0.01 )
+texture = ExtResource( 2 )
+color = Color( 0.780392, 0, 1, 1 )
+shadow_enabled = true
+
+[node name="Sprite" type="Sprite" parent="."]
+show_behind_parent = true
+light_mask = 0
+position = Vector2( -45.0046, 2.9461 )
+rotation = 1.5708
+scale = Vector2( 0.01, 90 )
+texture = SubResource( 3 )
+
+[connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]

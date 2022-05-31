@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://prefabs/ball_sprite_with_border.tscn" type="PackedScene" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 289.103
+
+[node name="dummy" type="KinematicBody2D"]
+scale = Vector2( 0.1, 0.1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 0.45, 0.45 )
+z_index = -1
+shape = SubResource( 1 )
+disabled = true
+
+[node name="sprite" parent="." instance=ExtResource( 3 )]
+scale = Vector2( 1e-05, 1e-05 )
+center_color = Color( 0.992157, 0, 0, 1 )
+border_color = Color( 1, 0.560784, 0, 1 )

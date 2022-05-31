@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 1 )
+colors = PoolColorArray( 0.269531, 0.269531, 0.269531, 1 )
+
+[sub_resource type="GradientTexture" id=1]
+gradient = SubResource( 2 )
+
+[node name="Sprite" type="Sprite"]
+position = Vector2( 0, 500 )
+scale = Vector2( 1, 1000 )
+texture = SubResource( 1 )

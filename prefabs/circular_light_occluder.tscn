@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="OccluderPolygon2D" id=1]
+resource_local_to_scene = true
+polygon = PoolVector2Array( 30, 0, 27.4064, 12.2021, 20.0739, 22.2943, 9.27051, 28.5317, -3.13585, 29.8357, -15, 25.9808, -24.2705, 17.6336, -29.3444, 6.23735, -29.3444, -6.23735, -24.2705, -17.6336, -15, -25.9808, -3.13585, -29.8357, 9.27051, -28.5317, 20.0739, -22.2943, 27.4064, -12.2021 )
+
+[sub_resource type="GDScript" id=2]
+script/source = "tool
+extends LightOccluder2D
+
+export(float) 	var circle_r   = 30 setget set_radius
+export(int) 	var num_points = 30 setget set_num_points
+
+func set_radius(new_r):
+	circle_r = new_r
+	set_points()
+
+func set_num_points(new_num):
+	num_points = new_num
+	set_points()
+
+func set_points():
+	self.occluder.set_polygon(calc_points())
+
+func calc_points():
+	var radian_step = float(2.0*PI)/float(num_points)
+	var points = []
+	for i in range(num_points):
+		var x = cos(radian_step*i) * circle_r
+		var y = sin(radian_step*i) * circle_r
+		points.append(Vector2(x,y))
+	return points
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	if Engine.editor_hint:
+		set_points()
+		set_owner(get_tree().edited_scene_root)
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta: float) -> void:
+#	pass
+"
+
+[node name="LightOccluder2D" type="LightOccluder2D"]
+occluder = SubResource( 1 )
+script = SubResource( 2 )
+num_points = 15

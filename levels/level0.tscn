@@ -1,0 +1,113 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scripts/level.gd" type="Script" id=1]
+[ext_resource path="res://prefabs/gun.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/resizer.gd" type="Script" id=3]
+[ext_resource path="res://prefabs/wall.tscn" type="PackedScene" id=4]
+[ext_resource path="res://prefabs/nodes_in_line.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/pegs.gd" type="Script" id=6]
+[ext_resource path="res://prefabs/nodes_in_line_pivot.tscn" type="PackedScene" id=7]
+
+[node name="level" type="Node2D"]
+script = ExtResource( 1 )
+shot_bounciness = 0.1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 2, 2 )
+script = ExtResource( 3 )
+
+[node name="gun" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, -239 )
+
+[node name="l_wall" parent="." instance=ExtResource( 4 )]
+position = Vector2( -1012, 581 )
+scale = Vector2( 1, 1200 )
+flip_h = true
+
+[node name="r_wall" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1018, 580 )
+scale = Vector2( 1, 1200 )
+
+[node name="l_wall2" parent="." instance=ExtResource( 4 )]
+position = Vector2( -1286, -567 )
+rotation = 1.57116
+scale = Vector2( 1, 3000 )
+flip_h = true
+
+[node name="pegs" type="Node2D" parent="."]
+script = ExtResource( 6 )
+
+[node name="Node2D2" parent="pegs" instance=ExtResource( 7 )]
+position = Vector2( 780, 240 )
+rotation = 0.785398
+
+[node name="Node2D5" parent="pegs" instance=ExtResource( 7 )]
+position = Vector2( -780, 240 )
+rotation = -0.664346
+
+[node name="Node2D8" type="Node2D" parent="pegs"]
+position = Vector2( 0, 240 )
+
+[node name="Node2D6" parent="pegs/Node2D8" instance=ExtResource( 5 )]
+position = Vector2( -600, 0 )
+rotation = 1.5708
+
+[node name="Node2D7" parent="pegs/Node2D8" instance=ExtResource( 5 )]
+position = Vector2( -300, 0 )
+rotation = 1.5708
+
+[node name="Node2D3" parent="pegs/Node2D8" instance=ExtResource( 5 )]
+position = Vector2( 300, 0 )
+rotation = 1.5708
+
+[node name="Node2D" parent="pegs/Node2D8" instance=ExtResource( 5 )]
+position = Vector2( 600, 0 )
+rotation = 1.5708
+
+[node name="Node2D4" parent="pegs/Node2D8" instance=ExtResource( 5 )]
+rotation = 1.5708
+
+[node name="Node2D9" type="Node2D" parent="pegs"]
+position = Vector2( 20, 360 )
+
+[node name="Node2D6" parent="pegs/Node2D9" instance=ExtResource( 5 )]
+position = Vector2( -600, 0 )
+rotation = 1.5708
+
+[node name="Node2D7" parent="pegs/Node2D9" instance=ExtResource( 5 )]
+position = Vector2( -300, 0 )
+rotation = 1.5708
+
+[node name="Node2D3" parent="pegs/Node2D9" instance=ExtResource( 5 )]
+position = Vector2( 300, 0 )
+rotation = 1.5708
+
+[node name="Node2D" parent="pegs/Node2D9" instance=ExtResource( 5 )]
+position = Vector2( 600, 0 )
+rotation = 1.5708
+
+[node name="Node2D4" parent="pegs/Node2D9" instance=ExtResource( 5 )]
+rotation = 1.5708
+
+[node name="Node2D10" type="Node2D" parent="pegs"]
+position = Vector2( -20, 480 )
+
+[node name="Node2D6" parent="pegs/Node2D10" instance=ExtResource( 5 )]
+position = Vector2( -600, 0 )
+rotation = 1.5708
+
+[node name="Node2D7" parent="pegs/Node2D10" instance=ExtResource( 5 )]
+position = Vector2( -300, 0 )
+rotation = 1.5708
+
+[node name="Node2D3" parent="pegs/Node2D10" instance=ExtResource( 5 )]
+position = Vector2( 300, 0 )
+rotation = 1.5708
+
+[node name="Node2D" parent="pegs/Node2D10" instance=ExtResource( 5 )]
+position = Vector2( 600, 0 )
+rotation = 1.5708
+
+[node name="Node2D4" parent="pegs/Node2D10" instance=ExtResource( 5 )]
+rotation = 1.5708

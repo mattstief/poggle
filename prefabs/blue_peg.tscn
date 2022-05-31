@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://scripts/blue_peg.gd" type="Script" id=1]
+[ext_resource path="res://prefabs/ball_sprite_with_border.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/circular_light_occluder.tscn" type="PackedScene" id=3]
+[ext_resource path="res://bmps/light.bmp" type="Texture" id=4]
+[ext_resource path="res://scripts/polygon_maker.gd" type="Script" id=5]
+[ext_resource path="res://scripts/dimmer.gd" type="Script" id=6]
+[ext_resource path="res://bmps/spot.bmp" type="Texture" id=7]
+
+[sub_resource type="OccluderPolygon2D" id=2]
+resource_local_to_scene = true
+polygon = PoolVector2Array( 130, 0, 123.637, 40.1722, 105.172, 76.4121, 76.4121, 105.172, 40.1722, 123.637, 7.95994e-15, 130, -40.1722, 123.637, -76.4121, 105.172, -105.172, 76.4121, -123.637, 40.1722, -130, 1.59199e-14, -123.637, -40.1722, -105.172, -76.4121, -76.4121, -105.172, -40.1722, -123.637, -2.38798e-14, -130, 40.1722, -123.637, 76.4121, -105.172, 105.172, -76.4121, 123.637, -40.1722 )
+
+[node name="blue_peg" type="KinematicBody2D"]
+scale = Vector2( 0.2, 0.2 )
+z_index = 1
+z_as_relative = false
+collision_mask = 3
+script = ExtResource( 1 )
+color_on_hit = Color( 1, 0, 0, 1 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 125, 0, 122.268, 25.989, 114.193, 50.8421, 101.127, 73.4732, 83.6413, 92.8931, 62.5, 108.253, 38.6271, 118.882, 13.0661, 124.315, -13.0661, 124.315, -38.6271, 118.882, -62.5, 108.253, -83.6413, 92.8931, -101.127, 73.4732, -114.193, 50.8421, -122.268, 25.989, -125, 1.53076e-14, -122.268, -25.989, -114.193, -50.8421, -101.127, -73.4732, -83.6413, -92.8931, -62.5, -108.253, -38.6271, -118.882, -13.0661, -124.315, 13.0661, -124.315, 38.6271, -118.882, 62.5, -108.253, 83.6413, -92.8931, 101.127, -73.4732, 114.193, -50.8421, 122.268, -25.989 )
+script = ExtResource( 5 )
+circle_r = 125.0
+
+[node name="sprite" parent="." instance=ExtResource( 2 )]
+light_mask = 2
+center_color = Color( 0.262745, 0.341176, 0.972549, 1 )
+
+[node name="LightOccluder2D" parent="." instance=ExtResource( 3 )]
+occluder = SubResource( 2 )
+circle_r = 130.0
+num_points = 20
+
+[node name="Light2D" type="Light2D" parent="."]
+light_mask = 2
+texture = ExtResource( 4 )
+color = Color( 0, 0.133333, 1, 1 )
+energy = 0.5
+range_item_cull_mask = 3
+shadow_enabled = true
+shadow_item_cull_mask = 2
+script = ExtResource( 6 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.129412 )
+light_mask = 0
+scale = Vector2( 4, 4 )
+texture = ExtResource( 7 )
