@@ -35,7 +35,7 @@ func initialize_gun():
 		get_tree().quit()
 
 func initialize_bucket():
-	var catcher = get_node_or_null("catcher_body/catcher")
+	var catcher = get_node_or_null("catcher_container/catcher_body/catcher")
 	var catcher_exists:bool = is_instance_valid(catcher)
 	if catcher_exists:
 		var catch_err = catcher.connect("projectile_caught", self, "_on_catch")
@@ -58,6 +58,7 @@ func initialize_UI():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
 	var vp = get_node_or_null("root/viewport")
 	if vp != null:
 		print("viewport_rect: ", vp.get_visible_rect())

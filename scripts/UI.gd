@@ -5,7 +5,7 @@ var tweened_objs:Array
 var randomize_modulates:Array
 var col_change_time = 0.15
 var change_time_counter = 0
-var free_ball_text_offset:Vector2 = Vector2(-1000, -800)
+var free_ball_text_offset:Vector2 = Vector2(-1010, 0)
 var free_ball_text_scale: Vector2 = Vector2(0,0)
 var free_ball_text_scale2:Vector2 = Vector2(21,21)
 
@@ -44,7 +44,6 @@ func draw_event(arg = "default", event_origin = self):
 		#wait for the ammo UI to get into place
 		yield(ammo_tween, "tween_completed")
 		yield(ammo_tween, "tween_completed")
-
 		yield(text_tween, "tween_completed")
 		animate_text_removal(txt_node.get_child(1), text_tween)
 		text_tween.start()
@@ -76,7 +75,7 @@ func add_ammo_UI_text(event_origin):
 	text_box.modulate = rand_color
 	self.get("randomize_modulates").append(text_box)
 	text_box.text = text
-	var spawn_point = event_origin.get("global_position")
+	var spawn_point = event_origin.get_parent().get_parent().get("global_position")
 	spawn_point = spawn_point + free_ball_text_offset
 	var parent = Node2D.new()
 	parent.global_position = spawn_point

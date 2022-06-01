@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://bmps/spot.bmp" type="Texture" id=1]
-[ext_resource path="res://scripts/blue_peg.gd" type="Script" id=2]
+[ext_resource path="res://scripts/generic_peg.gd" type="Script" id=2]
 [ext_resource path="res://scripts/dimmer.gd" type="Script" id=3]
 [ext_resource path="res://prefabs/Dependents/ball_sprite_with_border.tscn" type="PackedScene" id=4]
 [ext_resource path="res://prefabs/Dependents/circular_light_occluder.tscn" type="PackedScene" id=5]
@@ -18,7 +18,10 @@ z_index = 1
 z_as_relative = false
 collision_mask = 3
 script = ExtResource( 2 )
+color = Color( 0.262745, 0.341176, 0.972549, 1 )
 color_on_hit = Color( 1, 0, 0, 1 )
+special_color = Color( 0.0666667, 0.698039, 0.254902, 1 )
+special_color_on_hit = Color( 0.921569, 0, 1, 1 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( 125, 0, 122.268, 25.989, 114.193, 50.8421, 101.127, 73.4732, 83.6413, 92.8931, 62.5, 108.253, 38.6271, 118.882, 13.0661, 124.315, -13.0661, 124.315, -38.6271, 118.882, -62.5, 108.253, -83.6413, 92.8931, -101.127, 73.4732, -114.193, 50.8421, -122.268, 25.989, -125, 1.53076e-14, -122.268, -25.989, -114.193, -50.8421, -101.127, -73.4732, -83.6413, -92.8931, -62.5, -108.253, -38.6271, -118.882, -13.0661, -124.315, 13.0661, -124.315, 38.6271, -118.882, 62.5, -108.253, 83.6413, -92.8931, 101.127, -73.4732, 114.193, -50.8421, 122.268, -25.989 )
@@ -27,7 +30,7 @@ circle_r = 125.0
 
 [node name="sprite" parent="." instance=ExtResource( 4 )]
 light_mask = 2
-center_color = Color( 0.262745, 0.341176, 0.972549, 1 )
+center_color = Color( 1, 1, 1, 1 )
 
 [node name="LightOccluder2D" parent="." instance=ExtResource( 5 )]
 occluder = SubResource( 2 )
