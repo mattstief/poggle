@@ -5,10 +5,9 @@ var base_energy = 1.0
 var energy_floor = 0.0
 var twinkle_floor = 0.0
 var dim_scale = 1.0
-var dim_over_time:bool = true
 
-var twinkle:bool 	   = true
-var alternator 		   = 0
+var dim_over_time:bool = true
+var twinkle:	  bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,19 +16,21 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func _process(delta: float) -> void:
-	if twinkle:
+	if self.get("twinkle"):
 		twinkle_cycle()
 	else:
-		energy = energy_floor
-	if dim_over_time:
+		self.set("energy", energy_floor)
+
+	if self.get("dim_over_time"):
 		dim_light(delta)
 
 
-func dim_light(delta):
-	var light_timer = self.get("running_light_time")
-	var dim_multiplier = self.get("dim_scale")
+func dim_light(delta: float) -> void:
+	var light_timer 	= self.get("running_light_time")
+	var dim_multiplier  = self.get("dim_scale")
 	if (light_timer > 0):
-		light_timer = light_timer - (delta * dim_multiplier)
+		var count_down_amnt = (delta * dim_multiplier)
+		light_timer = light_timer - count_down_amnt
 		self.set("running_light_time", light_timer)
 		self.set("energy", get_light_modifier(light_timer))
 
@@ -40,7 +41,7 @@ func add_energy(val = initial_light_time):
 
 func get_light_modifier(time = running_light_time):
 	var starting_time:float = self.get("initial_light_time")
-	var multiplier:float = self.get("base_energy")
+	var multiplier:   float = self.get("base_energy")
 	var ending_energy:float	= self.get("energy_floor")
 	var ratio = float(time)/starting_time
 	var value = ratio * multiplier

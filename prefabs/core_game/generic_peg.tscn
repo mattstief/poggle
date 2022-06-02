@@ -18,8 +18,8 @@ z_index = 1
 z_as_relative = false
 collision_mask = 3
 script = ExtResource( 2 )
-color = Color( 0.262745, 0.341176, 0.972549, 1 )
-color_on_hit = Color( 1, 0, 0, 1 )
+default_color = Color( 0, 0.156863, 1, 1 )
+default_color_on_hit = Color( 1, 0, 0, 1 )
 special_color = Color( 0.0666667, 0.698039, 0.254902, 1 )
 special_color_on_hit = Color( 0.921569, 0, 1, 1 )
 

@@ -6,34 +6,30 @@ export(float) var special_probability = 0.3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	count_total_pegs()
-	pass # Replace with function body.
+	randomize_pegs()
 
-func count_total_pegs():
+func randomize_pegs():
 	var all_pegs = get_tree().get_nodes_in_group("pegs")
 	var total_peg_count = all_pegs.size()
 	var special_count:int = float(total_peg_count) * special_probability
+	set_special_pegs(all_pegs, total_peg_count, special_count)
+
+func set_special_pegs(peg_list, peg_count, special_count):
+	var special_indexes:Array = get_unique_rand_arr(special_count, peg_count)
+	for idx in special_indexes:
+		peg_list[idx].set("peg_type", "special")
+
+func get_unique_rand_arr(rand_count, num_range):
 	var rand_arr:Array = []
 	randomize()
-	for i in special_count:
+	for i in rand_count:
 		var rand_not_found:bool = true
 		var rand_num
 		while (rand_not_found):
-			rand_num = (randi() % total_peg_count)
+			rand_num = (randi() % num_range)
 			rand_not_found = is_in_arr(rand_num, rand_arr)
 		rand_arr.append(rand_num)
-	verify_unique(rand_arr)
-	for idx in range(rand_arr.size()):
-		all_pegs[rand_arr[idx]].set("peg_type", "special")
-
-func verify_unique(arr):
-	var sz = arr.size()
-	for i in range(sz):
-		for j in range(sz):
-			if (i == j):
-				continue
-			elif arr[i] == arr[j]:
-				print("not unique! (", i, ", ", j, ")")
+	return rand_arr
 
 func is_in_arr(val, arr):
 	var sz = arr.size()
@@ -42,9 +38,12 @@ func is_in_arr(val, arr):
 			return true
 	return false
 
-func randomize_pegs():
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+#DEBUG
+func verify_unique(arr):
+	var sz = arr.size()
+	for i in range(sz):
+		for j in range(sz):
+			if (i == j):
+				continue
+			elif arr[i] == arr[j]:
+				print("not unique! (", i, ", ", j, ")")
