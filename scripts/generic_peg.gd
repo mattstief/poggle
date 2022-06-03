@@ -75,7 +75,6 @@ func initialize_light():
 
 func collide():
 	var collision_count = increment_collision_count()
-	print("collision count: ", collision_count)
 
 	emit_signal("peg_collision", self, "queue despawn")
 	any_collision_update()
@@ -137,7 +136,7 @@ func any_collision_light_fx():
 	var valid_light:bool = is_instance_valid(light)
 	if valid_light:
 		$Light2D.add_energy()
-		$Light2D.dim_scale = 0.6
+		$Light2D.time_scale = 0.6
 		$Light2D.twinkle_floor = 1.0
 
 #$sprite.increase_colors_transparency()
