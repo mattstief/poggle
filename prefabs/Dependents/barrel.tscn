@@ -15,7 +15,6 @@ scale = Vector2( 0.25, 0.25 )
 script = ExtResource( 2 )
 segment_sprite = ExtResource( 3 )
 projectile_scene = ExtResource( 6 )
-default_projectile_scene = ExtResource( 6 )
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 0.74902, 0.133333, 0.133333, 1 )
@@ -35,6 +34,11 @@ scale = Vector2( 1e-05, 1e-05 )
 
 [node name="dummy" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1.19209e-07, 772 )
+
+[node name="sprite" parent="dummy" instance=ExtResource( 5 )]
+scale = Vector2( 1e-05, 1e-05 )
+center_color = Color( 0.992157, 0, 0, 1 )
+border_color = Color( 1, 0.560784, 0, 1 )
 
 [node name="sprite" parent="dummy" instance=ExtResource( 5 )]
 scale = Vector2( 1e-05, 1e-05 )

@@ -5,11 +5,12 @@ var tween:		Tween
 var tween_enum:	int = 0
 
 func collide() -> void:
+	#do nothing
 	pass
 
 func _ready() -> void:
-	var amplitude_set:bool = self.get("amplitude")
-	if not amplitude_set:
+	var is_amplitude_set:bool = self.get("amplitude")
+	if not is_amplitude_set:
 		guess_starting_amplitude()
 	initialize_tween()
 
@@ -19,7 +20,7 @@ func guess_starting_amplitude() -> void:
 	var amp:			 	float 	= abs(initial_x_offset)
 	self.set("amplitude", amp)
 
-func initialize_tween():
+func initialize_tween() -> void:
 	var new_tween:		Tween = Tween.new()
 	var tween_exists:	bool  = is_instance_valid(new_tween)
 	if tween_exists:
@@ -31,7 +32,7 @@ func tween_loop(twn:Tween) -> void:
 	while(true):	#infinite loop
 		var update:bool = update_tween()
 		if update:
-			var start:bool 	= twn.start()
+			var start:bool = twn.start()
 			if start:
 				yield(twn, "tween_completed")
 
@@ -59,8 +60,8 @@ func update_tween() -> bool:
 	elif state == 1:
 		next_pos.x = next_pos.x + offset
 		self.set("tween_enum", 0)
-	var twn:			Tween = self.get("tween")
-	var tween_exists:	bool  = is_instance_valid(twn)
+	var twn:		 Tween = self.get("tween")
+	var tween_exists:bool  = is_instance_valid(twn)
 	if tween_exists:
 		return tween_property(start_pos, next_pos, self, "global_position", twn)
 	else:
