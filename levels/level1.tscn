@@ -115,7 +115,7 @@ label_template = SubResource( 9 )
 position = Vector2( -660, -512 )
 rotation = -1.5708
 num_nodes = 20
-padding = 66
+padding = 66.0
 
 [node name="Sprite2" parent="." instance=ExtResource( 12 )]
 position = Vector2( 5, 666 )

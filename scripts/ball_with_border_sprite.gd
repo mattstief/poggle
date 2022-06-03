@@ -1,5 +1,5 @@
 tool
-extends Sprite
+extends Node2D
 
 export(Color, RGBA) var center_color:Color setget set_center_color
 export(Color, RGBA) var border_color:Color setget set_border_color
@@ -37,7 +37,8 @@ func update_colors() -> void:
 		var center_val: Color 	= self.get("center_color")
 		center.set("modulate", center_val)
 
-func set_colors(center:Color, border:Color) -> void:
+func set_colors(center:Color = self.get("center_color"),
+border:Color = self.get("border_color")) -> void:
 	center_color = center
 	border_color = border
 
