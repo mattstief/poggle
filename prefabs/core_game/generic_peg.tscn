@@ -28,7 +28,7 @@ polygon = PoolVector2Array( 125, 0, 122.268, 25.989, 114.193, 50.8421, 101.127, 
 script = ExtResource( 6 )
 circle_r = 125.0
 
-[node name="sprite" parent="." instance=ExtResource( 4 )]
+[node name="bordered_circle" parent="." instance=ExtResource( 4 )]
 light_mask = 2
 center_color = Color( 1, 1, 1, 1 )
 
