@@ -1,8 +1,8 @@
 extends StaticBody2D
 
 
-func _ready():
+func _ready() -> void:
 	pass
 
-func collide():
+func collide() -> void:
 	pass

@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
 var velocity:	Vector2 = Vector2()
-var speed:		float 	= 0
-var gravity:	float 	= 0
+var speed:		float 	= 0.0
+var gravity:	float 	= 0.0
 var bounciness:	float 	= 1.0
 var bounce_mod:	float 	= -0.005
 
@@ -14,7 +14,7 @@ func _on_VisibilityNotifier2D_viewport_exited(_viewport) -> void:
 	emit_signal("projectile_despawn")
 	queue_free()
 
-func _physics_process(delta) -> void:
+func _physics_process(delta:float) -> void:
 	var v:Vector2 = self.get("velocity")
 	v = apply_gravity(v, delta)
 	self.set("velocity", v)
@@ -27,9 +27,9 @@ func _physics_process(delta) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_to_group("projectile")
-	var speed_scalar = self.get("speed")
+	var speed_scalar:float = self.get("speed")
 	set_initial_velocity(speed_scalar)
-	var light:Light2D = get_node_or_null("Light2D")
+	var light:		Light2D = get_node_or_null("Light2D")
 	var valid_light:bool = is_instance_valid(light)
 	if valid_light:
 		light.twinkle = false

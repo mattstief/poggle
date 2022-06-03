@@ -1,26 +1,31 @@
 extends Node2D
-export(Resource) var label_template
+export(Resource) var label_template:Resource
+var tweened_objs:			Array
+var randomize_modulates:	Array
+var col_change_time:		float 	= 0.15
+var change_time_counter:	float 	= 0.0
+var free_ball_text_offset:	Vector2 = Vector2(-1010, 0)
+var free_ball_text_scale: 	Vector2 = Vector2(0,0)
+var free_ball_text_scale2:	Vector2 = Vector2(21,21)
 signal UI_signal(arg)
-var tweened_objs:Array
-var randomize_modulates:Array
-var col_change_time = 0.15
-var change_time_counter = 0
-var free_ball_text_offset:Vector2 = Vector2(-1010, 0)
-var free_ball_text_scale: Vector2 = Vector2(0,0)
-var free_ball_text_scale2:Vector2 = Vector2(21,21)
 
-func _process(delta):
-	change_time_counter = change_time_counter + delta
-	if change_time_counter > col_change_time:
-		for node in randomize_modulates:
+func _process(delta:float) -> void:
+	var timer_val:float = self.get("change_time_counter")
+	timer_val = timer_val + delta
+	self.set("change_time_counter", timer_val)
+	var trigger_time:	float = self.get("col_change_time")
+	var obj_arr:		Array = self.get("randomize_modulates")
+	if timer_val > trigger_time:
+		for node in obj_arr:
 			if is_instance_valid(node):
-				node.modulate = get_rand_color()
-		change_time_counter = 0
+				var new_color:Color = get_rand_color()
+				node.set("modulate", new_color)
+		self.set("change_time_counter", 0.0)
 
 func tween_property(start, end, obj, property_str, tween = $Tween,
-duration = 1.0, trans_type = Tween.TRANS_SINE, ease_type = Tween.EASE_IN_OUT):
+duration = 1.0, trans_type = Tween.TRANS_SINE, ease_type = Tween.EASE_IN_OUT) -> bool:
 	if !(is_instance_valid(obj)):
-		return 0
+		return false
 	return tween.interpolate_property(
 	obj,
 	property_str,
@@ -30,95 +35,109 @@ duration = 1.0, trans_type = Tween.TRANS_SINE, ease_type = Tween.EASE_IN_OUT):
 	trans_type,
 	ease_type)
 
-func draw_event(arg = "default", event_origin = self):
+func draw_event(arg:String = "default", event_origin:Object = self) -> void:
 	if (arg == "free ball"):
-		var fx_node  = add_ammo_UI_effects(event_origin)
-		var txt_node = add_ammo_UI_text(event_origin)
-
-		add_font_effects(txt_node)
+		var fx_node:	Object = add_ammo_UI_effects(event_origin)
+		var txt_node:	Object = add_ammo_UI_text(event_origin)
+		#add_font_effects(txt_node)
 		signal_free_shot_begin()
-		var ammo_tween = fx_node.get_child(0)
-		ammo_tween.start()
-		var text_tween = txt_node.get_child(0)
-		text_tween.start()
+		var ammo_tween:Tween = fx_node.get_child(0)
+		var ammo_success:bool = ammo_tween.start()
+		if !ammo_success:
+			print("ammo tween failed")
+			return
+		var text_tween:Tween = txt_node.get_child(0)
+		var text_success = text_tween.start()
+		if !text_success:
+			print("text tween failed")
+			return
 		#wait for the ammo UI to get into place
 		yield(ammo_tween, "tween_completed")
 		yield(ammo_tween, "tween_completed")
 		yield(text_tween, "tween_completed")
-		animate_text_removal(txt_node.get_child(1), text_tween)
-		text_tween.start()
+		var animate_success:bool = animate_text_removal(txt_node.get_child(1), text_tween)
+		if !animate_success:
+			return
+		var text_success_2:bool = text_tween.start()
+		if !text_success_2:
+			print("text tween 2 failed")
+			return
 		fx_node.queue_free()
 		signal_free_shot_end()
 		yield(text_tween, "tween_completed")
 		txt_node.queue_free()
 
-func add_ammo_UI_effects(event_origin):
-	var parent_container	= $ammo
-	var ammo_instance 		= parent_container.get_resource_instance()
-	var tween = add_child_tween(ammo_instance)
+func add_ammo_UI_effects(event_origin) -> Object:
+	var parent_container:	Object	= self.get_node_or_null("ammo")
+	var ammo_instance:		Object 	= parent_container.get_resource_instance()
+	var tween:				Tween 	= add_child_tween(ammo_instance)
 	ammo_instance.rotate(parent_container.get("rotation"))
 	self.add_child(ammo_instance)
 
-	var start_pos 			= event_origin.get("global_position")
-	var end_pos	  			= parent_container.get_global_node_pos()
-	tween_property(start_pos, end_pos, ammo_instance, "position", tween, 2.0)
+	var start_pos:	Vector2	= event_origin.get("global_position")
+	var end_pos:	Vector2	= parent_container.get_global_node_pos()
+	var pos_tween:bool = tween_property(start_pos, end_pos, ammo_instance, "position", tween, 2.0)
+	if !pos_tween:
+		return null
 
-	var start_scale 		= Vector2(0,0)
-	var end_scale			= parent_container.get("scale")
-	tween_property(start_scale, end_scale, ammo_instance, "scale", tween, 2.0)
+	var start_scale:Vector2	= Vector2(0,0)
+	var end_scale:	Vector2	= parent_container.get("scale")
+	var scale_tween:bool = tween_property(start_scale, end_scale, ammo_instance, "scale", tween, 2.0)
+	if !scale_tween:
+		return null
 	return ammo_instance
 
-func add_ammo_UI_text(event_origin):
-	var text = "Free Ball!"
-	var rand_color = get_rand_color()
-	var text_box = self.get("label_template").instance()
+func add_ammo_UI_text(event_origin:Object) -> Object:
+	var text:		String 	= "Free Ball!"
+	var rand_color:	Color 	= get_rand_color()
+	var text_box:	Object 	= self.get("label_template").instance()
 	text_box.modulate = rand_color
 	self.get("randomize_modulates").append(text_box)
 	text_box.text = text
-	var spawn_point = event_origin.get_parent().get_parent().get("global_position")
+	var spawn_point:Vector2 = event_origin.get_parent().get_parent().get("global_position")
 	spawn_point = spawn_point + free_ball_text_offset
-	var parent = Node2D.new()
+	var parent:		Object = Node2D.new()
 	parent.global_position = spawn_point
-	var tween = add_child_tween(parent)	#must be first child
+	var tween:		Tween = add_child_tween(parent)	#must be first child
 	parent.add_child(text_box)
 	self.add_child(parent)
-	tween_property(free_ball_text_scale, free_ball_text_scale2,
+	var tween_success:bool = tween_property(free_ball_text_scale, free_ball_text_scale2,
 	text_box, "rect_scale", tween, 2.0,
 	Tween.TRANS_BOUNCE, Tween.EASE_OUT)
-	return parent
+	if tween_success:
+		return parent
+	else:
+		return null
 
-func animate_text_removal(text, tween, time = 1.0):
+func animate_text_removal(text:Object, tween:Tween, time:float = 1.0) -> bool:
 	return tween_property(1.0, 0.0, text, "percent_visible", tween,
 		time, Tween.TRANS_LINEAR)
 
-func add_child_tween(parent):
+func add_child_tween(parent) -> Object:
 	if is_instance_valid(parent):
-		var tween = Tween.new()
+		var tween:Object = Tween.new()
 		parent.add_child(tween)
 		return tween
 	else:
 		return null
 
+func get_rand_color() -> Color:
+	var color_arr: 	Array = self.get("colors")
+	var idx_range:	int = color_arr.size()
+	var index:		int = randi() % idx_range
+	return color_arr[index]
 
-func add_font_effects(text):
-	var font = text.get_child(0).get("customfonts")
-	print("font: ", font)
-
-func get_rand_color():
-	return colors[randi() % colors.size()]
-
-func make_node2D_child(pos, obj):
-	var node = Node2D.new()
+func make_node2D_child(pos:Vector2, obj:Object) -> Object:
+	var node:Object = Node2D.new()
 	self.add_child(node)
 	node.global_position = pos
 	node.add_child(obj)
 	return node
 
-
-func signal_free_shot_begin():
+func signal_free_shot_begin() -> void:
 	emit_signal("UI_signal", "prevent_firing")
 
-func signal_free_shot_end():
+func signal_free_shot_end() -> void:
 	emit_signal("UI_signal", "increase_ammo")
 	emit_signal("UI_signal", "allow_firing")
 
@@ -131,23 +150,23 @@ func _on_Tween_tween_completed(object: Object, _key: NodePath) -> void:
 		if object.is_in_group("tween_event_despawn"):
 			object.queue_free()
 
-func is_unique(obj, arr = tweened_objs):
+func is_unique(obj:Object, arr:Array = self.get("tweened_objs")) -> bool:
 	for elem in arr:
 		var valid_element:bool = is_instance_valid(elem)
-		if valid_element and (elem == obj):
+		if (valid_element and (elem == obj)):
 			return false
 	return true
 
-func draw_text(pos, message="sample text"):
-	var node = Node2D.new()
+func draw_text(pos:Vector2, message:String = "sample text") -> void:
+	var node:Object = Node2D.new()
 	self.add_child(node)
 	node.global_position = pos
-	var text_box = self.get("label_template").instance()
+	var text_box:Object = self.get("label_template").instance()
 	text_box.text = message
 	node.add_child(text_box)
 
-func draw_obj(pos, obj = label_template):
-	var node = Node2D.new()
+func draw_obj(pos:Vector2, obj:Resource = self.get("label_template")) -> void:
+	var node:Object = Node2D.new()
 	self.add_child(node)
 	node.global_position = pos
 	node.add_child(obj)

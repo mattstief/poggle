@@ -35,7 +35,9 @@ func _unhandled_input(_event: InputEvent) -> void:
 	else:
 		self.set("rotation_direction", 0)
 	if Input.is_action_just_released("fire"):
-		attempt_shot()
+		var success:bool = attempt_shot()
+		if !success:
+			print("cannot shoot")
 	if Input.is_action_just_released("reset"):
 		var err := get_tree().reload_current_scene()
 		if err:

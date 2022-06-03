@@ -72,8 +72,10 @@ func _on_spawn_obj(obj:Object):
 
 func _on_shoot_input(asset:Resource, rot:float, pos:Vector2) -> void:
 	var shot_allowed:bool = can_spawn_projectile()
+	print("shot_allowed: ", shot_allowed)
 	if shot_allowed:
 		var success = spawn_projectile(asset, rot, pos)
+		print("success: ", success)
 		if success:
 			begin_shot()
 
@@ -81,7 +83,9 @@ func _on_peg_collision(peg:Node2D, behavior:String) -> void:
 	if behavior == "queue despawn":
 		get("despawn_queue").append(peg)
 	elif behavior == "despawn":
-		despawn(peg)
+		var success:bool = despawn(peg)
+		if !success:
+			print("failed to despawn peg")
 	else:
 		pass
 
@@ -122,7 +126,9 @@ func can_spawn_projectile() -> bool:
 func spawn_projectile(asset:Resource, rot:float, pos:Vector2) -> bool:
 	var bullet:Object = asset.instance()
 	if is_instance_valid(bullet):
-		bullet.connect("projectile_despawn", self, "_on_projectile_despawn")
+		var failure:bool = bullet.connect("projectile_despawn", self, "_on_projectile_despawn")
+		if failure:
+			return false
 		bullet.set("bounciness",self.get("shot_bounciness"))
 		bullet.set("gravity"   ,self.get("shot_gravity"))
 		bullet.set("speed"	   ,self.get("shot_speed"))
