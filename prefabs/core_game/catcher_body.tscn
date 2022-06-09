@@ -32,3 +32,23 @@ occluder = SubResource( 1 )
 [node name="LightOccluder2D2" type="LightOccluder2D" parent="."]
 position = Vector2( -48, 30 )
 occluder = SubResource( 2 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( -45, 15, -45, -16, -53, -14, -72, 4, -79, 15 )
+
+[node name="Polygon2D" type="Polygon2D" parent="Polygon2D"]
+position = Vector2( -2.75, 0 )
+scale = Vector2( 0.95, 0.95 )
+color = Color( 0.639216, 0, 1, 1 )
+polygon = PoolVector2Array( -45, 15, -45, -16, -53, -14, -72, 4, -79, 15 )
+
+[node name="Polygon2D2" type="Polygon2D" parent="."]
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 45, 15, 45, -16, 53, -14, 72, 4, 79, 15 )
+
+[node name="Polygon2D2" type="Polygon2D" parent="Polygon2D2"]
+position = Vector2( 2.75, 0 )
+scale = Vector2( 0.95, 0.95 )
+color = Color( 0.639216, 0, 1, 1 )
+polygon = PoolVector2Array( 45, 15, 45, -16, 53, -14, 72, 4, 79, 15 )
