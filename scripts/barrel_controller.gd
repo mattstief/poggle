@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
 var segments:Array
-export(Resource) var segment_sprite:			Resource
-export(Resource) var projectile_scene:			Resource
+export(Resource) var segment_sprite:	Resource
+export(Resource) var projectile_scene:	Resource
 export var aim_segment_count:	int 	= 15
 export var aim_step_time:		float 	= 0.05
 var aim_sprite_scale:			Vector2 = Vector2(0.3, 0.3)
@@ -14,6 +14,7 @@ var projectile_speed:			float	= 1100.0
 var projectile_gravity:			float 	= 1200.0
 
 signal shoot_input(asset, rot, pos)
+signal player_input(arg)
 signal spawn_obj(obj)
 
 # Called when the node enters the scene tree for the first time.
@@ -42,6 +43,8 @@ func _unhandled_input(_event: InputEvent) -> void:
 		var err := get_tree().reload_current_scene()
 		if err:
 			print(err)
+	if Input.is_action_just_pressed("special action"):
+		emit_signal("player_input", "special_action_just_pressed")
 
 func look_at_pointer() -> void:
 	var pointer:Vector2 = get_global_mouse_position()
@@ -51,7 +54,6 @@ func offset_rotation(offset:float = self.get("default_rotation_offset")) -> void
 	var curr_rotation:		float = self.get("rotation")
 	var adjusted_rotation:	float = curr_rotation - offset
 	self.set("rotation", adjusted_rotation)
-
 
 func _physics_process(delta:float) -> void:
 	var direction:		int = self.get("rotation_direction")

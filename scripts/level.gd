@@ -25,9 +25,12 @@ func initialize_gun() -> void:
 	var barrel_exists:	bool 	= is_instance_valid(barrel)
 	if barrel_exists:
 		var shoot_err  = barrel.connect("shoot_input", self, "_on_shoot_input")
+		var input_err  = barrel.connect("player_input", self, "_on_player_input")
 		var sprite_err = barrel.connect("spawn_obj", self, "_on_spawn_obj")
 		if shoot_err:
 			print_connect_err("shoot_err", shoot_err)
+		if input_err:
+			print_connect_err("input_err", input_err)
 		if sprite_err:
 			print_connect_err("sprite_err", sprite_err)
 	else:
@@ -56,6 +59,17 @@ func initialize_UI() -> void:
 		get_tree().quit()
 	update_ammo_UI()
 
+func initialize_ability() -> void:
+	var ability: 		Node2D 	= get_node_or_null("Ability")
+	var ability_exists: bool	= is_instance_valid(ability)
+	if ability_exists:
+		var ability_err = ability.connect("ability_signal", self, "_on_ability_signal")
+		if ability_err:
+			print_connect_err("ability_err", ability_err)
+	else:
+		print("no special ability active!")
+	update_ammo_UI()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
@@ -66,6 +80,7 @@ func _ready() -> void:
 	initialize_gun()
 	initialize_bucket()
 	initialize_UI()
+	initialize_ability()
 
 func _on_spawn_obj(obj:Object):
 	self.add_child(obj)
@@ -106,6 +121,20 @@ func _on_UI_signal(arg:String) -> void:
 		self.set("firing_blocked", true)
 	if arg == "allow_firing":
 		self.set("firing_blocked", false)
+
+func _on_player_input(arg:String) -> void:
+	if(arg == "special_action_just_pressed"):
+		#can only use ability if a ball is on screen
+		var can_use_special:bool = !firing_blocked
+		if can_use_special:
+			#TODO validate $projectile existence
+			$Ability.try_ability($projectile)
+
+func _on_ability_signal(arg:String) -> void:
+	print("ability signal received", arg)
+
+func find_active_projectile():
+	pass
 
 func catch_event(arg:String = "default") -> void:
 	if (arg == "free ball"):
