@@ -9,9 +9,14 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func try_ability(projectile:Node2D) -> void:
-	special_ability(projectile)
+	if (in_stasis.size() <= 0):
+		special_ability_begin(projectile)
+	else:
+		special_ability_end(projectile)
 
-func special_ability(projectile:Node2D) -> void:
+func special_ability_begin(projectile:Node2D) -> void:
+	projectile.add_to_group("stasis")
+
 	in_stasis.push_back(projectile)
 	saved_vel.push_back(projectile.get("velocity"))
 	saved_grv.push_back(projectile.get("gravity"))
@@ -20,4 +25,12 @@ func special_ability(projectile:Node2D) -> void:
 	projectile.set("gravity", 0.0)
 	projectile.set("velocity", Vector2(0.0,0.0))
 	emit_signal("ability_signal", "expend shot")
-	pass
+
+func special_ability_end(projectile:Node2D) -> void:
+	var release:Node2D = in_stasis.pop_back()
+	var vel:Vector2 = saved_vel.pop_back()
+	var grv: float = saved_grv.pop_back()
+	release.set("velocity", vel)
+	release.set("gravity", grv)
+	release.remove_from_group("stasis")
+

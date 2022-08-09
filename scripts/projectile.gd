@@ -44,7 +44,7 @@ func set_initial_velocity(sp:float) -> void:
 func collide(collision_instance:KinematicCollision2D) -> void:
 	deflect(collision_instance)
 	var other_obj:Object = collision_instance.get("collider")
-	var is_projectile:bool = other_obj.is_in_group("projectile")
+	var is_projectile:	bool = other_obj.is_in_group("projectile")
 	if (!is_projectile):
 		other_obj.collide()
 	adjust_bounciness()
