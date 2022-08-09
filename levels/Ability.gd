@@ -19,5 +19,5 @@ func special_ability(projectile:Node2D) -> void:
 	#stop projectile motion
 	projectile.set("gravity", 0.0)
 	projectile.set("velocity", Vector2(0.0,0.0))
-	emit_signal("ability_signal", "action")
+	emit_signal("ability_signal", "expend shot")
 	pass

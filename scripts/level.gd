@@ -131,7 +131,10 @@ func _on_player_input(arg:String) -> void:
 			$Ability.try_ability($projectile)
 
 func _on_ability_signal(arg:String) -> void:
-	print("ability signal received", arg)
+	if(arg == "expend shot"):
+		expend_shot()
+	else:
+		print("ability signal received", arg)
 
 func find_active_projectile():
 	pass
