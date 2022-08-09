@@ -34,3 +34,12 @@ func special_ability_end(projectile:Node2D) -> void:
 	release.set("gravity", grv)
 	release.remove_from_group("stasis")
 
+
+func stasis_collision(collision_instance:KinematicCollision2D) -> void:
+	deflect(collision_instance)
+
+
+func deflect(collision_instance:KinematicCollision2D) -> void:
+	var projectile_vel = collision_instance.collider_velocity()
+	var resulting_vel  = saved_vel[0] + projectile_vel
+	saved_vel[0] = resulting_vel
